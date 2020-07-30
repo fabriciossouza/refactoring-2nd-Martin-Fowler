@@ -22,7 +22,7 @@ module.exports = function statement(invoice, plays) {
       case 'comedy': {
         thisAmount = 30000
         if (perf.audience > 20) {
-          thisAmount += 10000 + 500 * (perf.audience - 2)
+          thisAmount += 10000 + 500 * (perf.audience - 20)
         }
         thisAmount += 300 * perf.audience
         break
