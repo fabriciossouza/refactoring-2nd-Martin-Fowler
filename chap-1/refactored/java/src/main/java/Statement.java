@@ -25,11 +25,11 @@ public class Statement {
 
             volumeCredits += volumeCreditsFor(perf);
 
-            result += format(" %s: %s %s seats\n", play.getType(), usd(amountFor(perf)/100), perf.getAudience());
+            result += format(" %s: %s %s seats\n", play.getType(), usd(amountFor(perf)), perf.getAudience());
             totalAmount += amountFor(perf);
         }
 
-        result += format("Amount owed is %s \n", usd(totalAmount / 100));
+        result += format("Amount owed is %s \n", usd(totalAmount));
         result += format("You earned %.2f credits\n", volumeCredits);
 
         return result;
@@ -69,6 +69,6 @@ public class Statement {
     private String usd(double number){
         Locale locale = new Locale("en", "US");
         NumberFormat currencyFormatter = getCurrencyInstance(locale);
-        return currencyFormatter.format(number);
+        return currencyFormatter.format(number/100);
     }
 }
