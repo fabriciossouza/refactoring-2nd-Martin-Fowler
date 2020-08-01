@@ -2,15 +2,18 @@ import data.invoice.Invoice;
 import data.invoice.Performace;
 import data.play.Play;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import static data.play.PlayType.COMEDY;
 import static java.lang.Math.floor;
 import static java.lang.String.format;
+import static java.text.NumberFormat.getCurrencyInstance;
 
 public class Statement {
 
-    public String stantement(Invoice invoice, List<Play> plays) throws Exception {
+    public String stantement(Invoice invoice) throws Exception {
 
         double totalAmount = 0;
         double volumeCredits = 0;
@@ -22,12 +25,12 @@ public class Statement {
 
             volumeCredits += volumeCreditsFor(perf);
 
-            result += format(" %s: %.2f %s seats\n", play.getType(), amountFor(perf)/100, perf.getAudience());
+            result += format(" %s: %s %s seats\n", play.getType(), usd(amountFor(perf)/100), perf.getAudience());
             totalAmount += amountFor(perf);
         }
 
-        result += format("Amount owed is %1$,.2f \n", totalAmount / 100);
-        result += format("You earned %1$,.2f credits\n", volumeCredits);
+        result += format("Amount owed is %s \n", usd(totalAmount / 100));
+        result += format("You earned %.2f credits\n", volumeCredits);
 
         return result;
     }
@@ -61,5 +64,11 @@ public class Statement {
         }
 
         return result;
+    }
+
+    private String usd(double number){
+        Locale locale = new Locale("en", "US");
+        NumberFormat currencyFormatter = getCurrencyInstance(locale);
+        return currencyFormatter.format(number);
     }
 }

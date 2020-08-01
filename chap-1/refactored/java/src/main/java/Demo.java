@@ -26,9 +26,7 @@ public class Demo {
 
         Statement statement = new Statement();
 
-        List<Play> plays = Arrays.asList(new Hamlet(), new AsLike(), new Othello());
-
-        String result = statement.stantement(invoice, plays );
+        String result = statement.stantement(invoice);
         System.out.println(result);
 
     }
