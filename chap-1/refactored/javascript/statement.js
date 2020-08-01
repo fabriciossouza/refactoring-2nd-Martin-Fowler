@@ -10,13 +10,11 @@ module.exports = function statement(invoice, plays) {
   }).format
 
   for (let perf of invoice.performances) {
-    let thisAmount = amountFor(perf);
 
-    volumeCredits += Math.max(perf.audience - 30, 0)
-    if ("comedy" === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5)
+    volumeCredits += volumeCreditsFor(perf);
 
-    result += `  ${playFor(perf).name}: ${format(thisAmount/100)} (${perf.audience} seats)\n`
-    totalAmount += thisAmount
+    result += `  ${playFor(perf).name}: ${format(amountFor(perf)/100)} (${perf.audience} seats)\n`
+    totalAmount += amountFor(perf)
   }
 
   result += `Amount owed is ${format(totalAmount / 100)}\n`
@@ -26,6 +24,13 @@ module.exports = function statement(invoice, plays) {
 
   function playFor(aPerformance){
     return plays[aPerformance.playID];
+  }
+
+  function volumeCreditsFor(performance){
+    let result = 0;
+    result += Math.max(performance.audience - 30, 0)
+    if ("comedy" === playFor(performance).type) result += Math.floor(performance.audience / 5)
+    return result;
   }
 
   function amountFor(aPerformance){
