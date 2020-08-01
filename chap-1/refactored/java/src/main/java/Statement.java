@@ -3,7 +3,6 @@ import data.invoice.Performace;
 import data.play.Play;
 
 import java.text.NumberFormat;
-import java.util.List;
 import java.util.Locale;
 
 import static data.play.PlayType.COMEDY;
@@ -14,27 +13,31 @@ import static java.text.NumberFormat.getCurrencyInstance;
 public class Statement {
 
     private Invoice invoice;
-    private double totalAmount = 0;
 
-    public String stantement(Invoice invoice) throws Exception {
-
+    public Statement(Invoice invoice) {
         this.invoice = invoice;
+    }
+
+    public String stantement() throws Exception {
 
         String result = format("Statement for %s\n",invoice.getCustomer());
 
         for(Performace perf : invoice.getPerformaces()){
-
             Play play = perf.getPlay();
-
             result += format(" %s: %s %s seats\n", play.getType(), usd(amountFor(perf)), perf.getAudience());
-            totalAmount += amountFor(perf);
         }
 
-        double volumeCredits = totalVolumeCredits();
+        result += format("Amount owed is %s \n", usd(totalAmount()));
+        result += format("You earned %.2f credits\n", totalVolumeCredits());
 
-        result += format("Amount owed is %s \n", usd(totalAmount));
-        result += format("You earned %.2f credits\n", volumeCredits);
+        return result;
+    }
 
+    private double totalAmount() throws Exception {
+        double result = 0;
+        for(Performace perf : invoice.getPerformaces()){
+            result += amountFor(perf);
+        }
         return result;
     }
 

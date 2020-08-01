@@ -3,10 +3,8 @@ import data.invoice.Performace;
 import data.play.AsLike;
 import data.play.Hamlet;
 import data.play.Othello;
-import data.play.Play;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Demo {
@@ -24,9 +22,9 @@ public class Demo {
 
         invoice.setPerformaces(performances);
 
-        Statement statement = new Statement();
+        Statement statement = new Statement(invoice);
 
-        String result = statement.stantement(invoice);
+        String result = statement.stantement();
         System.out.println(result);
 
     }
