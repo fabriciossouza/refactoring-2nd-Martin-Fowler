@@ -13,21 +13,24 @@ import static java.text.NumberFormat.getCurrencyInstance;
 
 public class Statement {
 
+    private Invoice invoice;
+    private double totalAmount = 0;
+
     public String stantement(Invoice invoice) throws Exception {
 
-        double totalAmount = 0;
-        double volumeCredits = 0;
+        this.invoice = invoice;
+
         String result = format("Statement for %s\n",invoice.getCustomer());
 
         for(Performace perf : invoice.getPerformaces()){
 
             Play play = perf.getPlay();
 
-            volumeCredits += volumeCreditsFor(perf);
-
             result += format(" %s: %s %s seats\n", play.getType(), usd(amountFor(perf)), perf.getAudience());
             totalAmount += amountFor(perf);
         }
+
+        double volumeCredits = totalVolumeCredits();
 
         result += format("Amount owed is %s \n", usd(totalAmount));
         result += format("You earned %.2f credits\n", volumeCredits);
@@ -70,5 +73,13 @@ public class Statement {
         Locale locale = new Locale("en", "US");
         NumberFormat currencyFormatter = getCurrencyInstance(locale);
         return currencyFormatter.format(number/100);
+    }
+
+    private double totalVolumeCredits(){
+        double volumeCredits = 0;
+        for(Performace perf : invoice.getPerformaces()){
+            volumeCredits += volumeCreditsFor(perf);
+        }
+        return volumeCredits;
     }
 }
