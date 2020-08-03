@@ -24,8 +24,10 @@ public class Demo {
 
         Statement statement = new Statement(invoice);
 
-        String result = statement.stantement();
-        System.out.println(result);
+        String text = statement.renderPlainText();
+        System.out.println(text);
 
+        String hml = statement.renderHtml();
+        System.out.println(hml);
     }
 }

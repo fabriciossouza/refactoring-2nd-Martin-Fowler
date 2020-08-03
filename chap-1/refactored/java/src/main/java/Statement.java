@@ -1,73 +1,54 @@
 import data.invoice.Invoice;
 import data.invoice.Performace;
 import data.play.Play;
+import data.statement.StatementData;
+import data.statement.PerformaceData;
 
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import static data.play.PlayType.COMEDY;
-import static java.lang.Math.floor;
 import static java.lang.String.format;
 import static java.text.NumberFormat.getCurrencyInstance;
 
 public class Statement {
 
-    private Invoice invoice;
+    private StatementData data;
 
     public Statement(Invoice invoice) {
-        this.invoice = invoice;
+        this.data = new StatementData(invoice);
     }
 
-    public String stantement() throws Exception {
+    public Statement(StatementData data) {
+        this.data = data;
+    }
 
-        String result = format("Statement for %s\n",invoice.getCustomer());
+    public String renderPlainText() {
 
-        for(Performace perf : invoice.getPerformaces()){
+        String result = format("Statement for %s\n",data.getCustomer());
+
+        for(PerformaceData perf : data.getPerformaces()){
             Play play = perf.getPlay();
-            result += format(" %s: %s %s seats\n", play.getType(), usd(amountFor(perf)), perf.getAudience());
+            result += format(" %s: %s %s seats\n", play.getType(), usd(perf.getAmount()), perf.getPerformace().getAudience());
         }
 
-        result += format("Amount owed is %s \n", usd(totalAmount()));
-        result += format("You earned %.2f credits\n", totalVolumeCredits());
+        result += format("Amount owed is %s \n", usd(data.totalAmount()));
+        result += format("You earned %.2f credits\n", data.totalVolumeCredits());
 
         return result;
     }
 
-    private double totalAmount() throws Exception {
-        double result = 0;
-        for(Performace perf : invoice.getPerformaces()){
-            result += amountFor(perf);
+    public String renderHtml() {
+        String result = format("<h1>Statement for %s</h1>\n",data.getCustomer());
+        result += "<table>\n";
+        result += "<tr><th>play</th><th>seats</th><th>cost</th></tr>\n";
+        for (PerformaceData performaceData : data.getPerformaces()) {
+            Performace performace = performaceData.getPerformace();
+            result += format("  <tr><td>%s</td><td>%s</td>",performace.getPlay().getName(), performace.getAudience());
+            result += format("<td>%s</td></tr>\n", usd(performaceData.getAmount()));
         }
-        return result;
-    }
-
-    private double volumeCreditsFor(Performace performace) {
-        double result = 0;
-        result += Math.max(performace.getAudience() - 30, 0);
-        if (COMEDY == performace.getPlay().getType()) result += floor(performace.getAudience() / 5);
-        return result;
-    }
-
-    private double amountFor(Performace perf) throws Exception {
-        double result = 0;
-
-        switch (perf.getPlay().getType()){
-            case TRAGEDY:
-                result = 40000;
-                if (perf.getAudience() > 30) {
-                    result += 1000 * (perf.getAudience() - 30);
-                }
-                break;
-            case COMEDY:
-                result = 30000;
-                if (perf.getAudience() > 20) {
-                    result += 10000 + 500 * (perf.getAudience() - 20);
-                }
-                result += 300 * perf.getAudience();
-                break;
-            default:
-                throw new Exception("unknown type: " + perf.getPlay().getType());
-        }
+        result += "</table>\n";
+        result += format("<p>Amount owed is <em>%s</em></p>\n", usd(data.totalAmount()) );
+        result += format("<p>You earned <em>%s</em> credits</p>\n", data.totalVolumeCredits());
 
         return result;
     }
@@ -76,13 +57,5 @@ public class Statement {
         Locale locale = new Locale("en", "US");
         NumberFormat currencyFormatter = getCurrencyInstance(locale);
         return currencyFormatter.format(number/100);
-    }
-
-    private double totalVolumeCredits(){
-        double volumeCredits = 0;
-        for(Performace perf : invoice.getPerformaces()){
-            volumeCredits += volumeCreditsFor(perf);
-        }
-        return volumeCredits;
     }
 }
