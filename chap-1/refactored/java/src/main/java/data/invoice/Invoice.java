@@ -5,21 +5,21 @@ import java.util.List;
 public class Invoice {
 
     private String customer;
-    private List<Performace> performaces;
+    private List<Performance> performances;
 
     public void setCustomer(String customer) {
         this.customer = customer;
     }
 
-    public void setPerformaces(List<Performace> performaces) {
-        this.performaces = performaces;
+    public void setPerformances(List<Performance> performances) {
+        this.performances = performances;
     }
 
     public String getCustomer() {
         return customer;
     }
 
-    public List<Performace> getPerformaces() {
-        return performaces;
+    public List<Performance> getPerformances() {
+        return performances;
     }
 }

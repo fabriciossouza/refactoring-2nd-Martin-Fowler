@@ -17,7 +17,7 @@ module.exports = function statement(invoice, plays) {
     return result
   }
 
-  function htmlStatement (invoice, plays) {
+  function htmlStatement(invoice, plays) {
     return renderHtml(createStatementData(invoice, plays));
   }
   
@@ -42,5 +42,4 @@ module.exports = function statement(invoice, plays) {
       minimumFractionDigits: 2
     }).format(aNumber/100);
   }
-
 }

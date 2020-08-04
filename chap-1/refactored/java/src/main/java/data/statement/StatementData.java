@@ -16,8 +16,8 @@ public class StatementData {
     public StatementData(Invoice invoice) {
         customer = invoice.getCustomer();
 
-        performaces = invoice.getPerformaces().stream()
-                .map( performace -> new PerformaceData(performace))
+        performaces = invoice.getPerformances().stream()
+                .map(performace -> new PerformaceData(performace))
                 .collect(toList());
     }
 
