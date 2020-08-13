@@ -1,5 +1,5 @@
 import data.invoice.Invoice;
-import data.invoice.Performace;
+import data.invoice.Performance;
 import data.play.Play;
 import data.statement.StatementData;
 import data.statement.PerformaceData;
@@ -28,7 +28,7 @@ public class Statement {
 
         for(PerformaceData perf : data.getPerformaces()){
             Play play = perf.getPlay();
-            result += format(" %s: %s %s seats\n", play.getType(), usd(perf.getAmount()), perf.getPerformace().getAudience());
+            result += format(" %s: %s %s seats\n", play.getType(), usd(perf.getAmount()), perf.getPerformance().getAudience());
         }
 
         result += format("Amount owed is %s \n", usd(data.totalAmount()));
@@ -42,8 +42,8 @@ public class Statement {
         result += "<table>\n";
         result += "<tr><th>play</th><th>seats</th><th>cost</th></tr>\n";
         for (PerformaceData performaceData : data.getPerformaces()) {
-            Performace performace = performaceData.getPerformace();
-            result += format("  <tr><td>%s</td><td>%s</td>",performace.getPlay().getName(), performace.getAudience());
+            Performance performance = performaceData.getPerformance();
+            result += format("  <tr><td>%s</td><td>%s</td>", performance.getPlay().getName(), performance.getAudience());
             result += format("<td>%s</td></tr>\n", usd(performaceData.getAmount()));
         }
         result += "</table>\n";

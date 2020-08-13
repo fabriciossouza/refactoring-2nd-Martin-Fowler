@@ -2,12 +2,12 @@ package data.invoice;
 
 import data.play.Play;
 
-public class Performace {
+public class Performance {
 
     private Play play;
     private Integer audience;
 
-    public Performace(Play play, Integer audience) {
+    public Performance(Play play, Integer audience) {
         this.play = play;
         this.audience = audience;
     }

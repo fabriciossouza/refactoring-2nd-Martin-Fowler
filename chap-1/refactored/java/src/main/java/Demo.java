@@ -1,5 +1,5 @@
 import data.invoice.Invoice;
-import data.invoice.Performace;
+import data.invoice.Performance;
 import data.play.AsLike;
 import data.play.Hamlet;
 import data.play.Othello;
@@ -14,13 +14,13 @@ public class Demo {
         Invoice invoice = new Invoice();
 
         invoice.setCustomer("BigCo");
-        List<Performace> performances = new ArrayList();
+        List<Performance> performances = new ArrayList();
 
-        performances.add(new Performace(new Hamlet(), 55));
-        performances.add(new Performace(new AsLike(), 35));
-        performances.add(new Performace(new Othello(), 40));
+        performances.add(new Performance(new Hamlet(), 55));
+        performances.add(new Performance(new AsLike(), 35));
+        performances.add(new Performance(new Othello(), 40));
 
-        invoice.setPerformaces(performances);
+        invoice.setPerformances(performances);
 
         Statement statement = new Statement(invoice);
 
